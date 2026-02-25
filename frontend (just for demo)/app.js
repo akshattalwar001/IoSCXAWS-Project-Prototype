@@ -266,3 +266,81 @@ async function loadAtRisk() {
 }
 
 document.getElementById("load-risk").addEventListener("click", loadAtRisk);
+
+// ---- STUDENT LOOKUP ----
+
+document.getElementById("lookup-btn").addEventListener("click", loadLookup);
+document.getElementById("lookup-id").addEventListener("keydown", (e) => {
+    if (e.key === "Enter") loadLookup();
+});
+
+async function loadLookup() {
+    let id = document.getElementById("lookup-id").value.trim();
+    let msg = document.getElementById("lookup-msg");
+    let resultDiv = document.getElementById("lookup-result");
+    resultDiv.classList.add("hidden");
+    msg.textContent = "";
+
+    if (!id) { msg.textContent = "Enter a student ID"; return; }
+
+    let resp = await fetch(API + "/students/" + id);
+    if (!resp.ok) {
+        msg.textContent = "Student not found";
+        msg.style.color = "#dc2626";
+        return;
+    }
+
+    let s = await resp.json();
+    let allData = await fetch(API + "/students").then(r => r.json());
+    let all = allData.students;
+
+    let sameCat = all.filter(x => x.category === s.category);
+    let sameRes = all.filter(x => x.residence === s.residence);
+    let sameSem = all.filter(x => x.semester === s.semester);
+
+    let allGpas = all.map(x => x.gpa).sort((a, b) => b - a);
+    let overallRank = allGpas.indexOf(s.gpa) + 1;
+
+    let catGpas = sameCat.map(x => x.gpa).sort((a, b) => b - a);
+    let catRank = catGpas.indexOf(s.gpa) + 1;
+
+    let avgAll = all.length ? (all.reduce((a, x) => a + x.gpa, 0) / all.length) : 0;
+    let avgCat = sameCat.length ? (sameCat.reduce((a, x) => a + x.gpa, 0) / sameCat.length) : 0;
+    let avgRes = sameRes.length ? (sameRes.reduce((a, x) => a + x.gpa, 0) / sameRes.length) : 0;
+    let avgSem = sameSem.length ? (sameSem.reduce((a, x) => a + x.gpa, 0) / sameSem.length) : 0;
+
+    let level = s.gpa >= 9 ? "Excellent" : s.gpa >= 7 ? "Good" : s.gpa >= 5 ? "Average" : "Below Average";
+    let diff = s.gpa - avgAll;
+    let diffText = diff >= 0 ? "+" + diff.toFixed(2) + " above" : diff.toFixed(2).replace("-", "-") + " below";
+
+    document.getElementById("lookup-name").textContent = s.name;
+    document.getElementById("lookup-meta").innerHTML = `
+        ID: ${s.id}
+        ${catBadge(s.category)}
+        ${resBadge(s.residence)}
+        Sem ${s.semester}
+    `;
+
+    document.getElementById("lookup-cards").innerHTML = `
+        <div class="card"><h3>GPA</h3><div class="value">${gpaCell(s.gpa)}</div></div>
+        <div class="card"><h3>Performance</h3><div class="value" style="font-size:16px">${level}</div></div>
+        <div class="card"><h3>Overall Rank</h3><div class="value">${overallRank} / ${all.length}</div></div>
+        <div class="card"><h3>${s.category} Rank</h3><div class="value">${catRank} / ${sameCat.length}</div></div>
+    `;
+
+    document.getElementById("lookup-rank").innerHTML = `
+        <p class="rank-text">${s.name}'s GPA is <strong>${diffText}</strong> the overall average (${avgAll.toFixed(2)})</p>
+    `;
+
+    document.getElementById("lookup-comparison").innerHTML = `
+        <table class="comparison-table">
+            <tr><td>vs All Students</td><td>${s.gpa}</td><td>avg ${avgAll.toFixed(2)}</td></tr>
+            <tr><td>vs ${s.category} Students</td><td>${s.gpa}</td><td>avg ${avgCat.toFixed(2)}</td></tr>
+            <tr><td>vs ${s.residence}</td><td>${s.gpa}</td><td>avg ${avgRes.toFixed(2)}</td></tr>
+            <tr><td>vs Semester ${s.semester}</td><td>${s.gpa}</td><td>avg ${avgSem.toFixed(2)}</td></tr>
+        </table>
+    `;
+
+    msg.textContent = "";
+    resultDiv.classList.remove("hidden");
+}
