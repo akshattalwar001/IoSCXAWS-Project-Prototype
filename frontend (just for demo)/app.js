@@ -1,4 +1,4 @@
-const API = "http://127.0.0.1:8000";
+const API = "https://ioscxaws-project-prototype.onrender.com";
 
 const sidebar = document.getElementById("sidebar");
 const hamburger = document.getElementById("hamburger");
