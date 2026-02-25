@@ -1,4 +1,5 @@
 from fastapi import FastAPI, HTTPException, Query
+from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel, Field
 from typing import Optional, Literal
 import json
@@ -10,6 +11,8 @@ app = FastAPI(
     title="Student Database API",
     description="A simple API to manage and analyze student records"
 )
+
+app.add_middleware(CORSMiddleware, allow_origins=["*"], allow_methods=["*"], allow_headers=["*"])
 
 
 class Student(BaseModel):
