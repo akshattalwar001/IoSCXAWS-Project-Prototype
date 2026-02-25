@@ -1,3 +1,5 @@
+![Students Database API](https://i.imgur.com/RD4Kf0e.png)
+
 it checks which student is SC ST and which is General.
 
 it also identifies who is hosteller and who is day scholar.
