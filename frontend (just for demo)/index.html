@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Database</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<button class="hamburger" id="hamburger">
+    <span></span><span></span><span></span>
+</button>
+<div class="overlay hidden" id="overlay"></div>
+
+<div class="sidebar" id="sidebar">
+    <h2></h2>
+    <button class="nav-btn active" data-section="students">All Students</button>
+    <button class="nav-btn" data-section="add">Add Student</button>
+    <button class="nav-btn" data-section="summary">Summary</button>
+    <button class="nav-btn" data-section="category">By Category</button>
+    <button class="nav-btn" data-section="residence">By Residence</button>
+    <button class="nav-btn" data-section="toppers">Toppers</button>
+    <button class="nav-btn" data-section="atrisk">At Risk</button>
+</div>
+
+<div class="main">
+
+    <!-- ALL STUDENTS -->
+    <div id="students" class="section active">
+        <h1>All Students</h1>
+        <div class="filters">
+            <select id="filter-category">
+                <option value="">All Categories</option>
+                <option value="SC">SC</option>
+                <option value="ST">ST</option>
+                <option value="General">General</option>
+            </select>
+            <select id="filter-residence">
+                <option value="">All Residence</option>
+                <option value="Hosteller">Hosteller</option>
+                <option value="Day Scholar">Day Scholar</option>
+            </select>
+            <select id="filter-semester">
+                <option value="">All Semesters</option>
+                <option value="1">Sem 1</option>
+                <option value="2">Sem 2</option>
+                <option value="3">Sem 3</option>
+                <option value="4">Sem 4</option>
+                <option value="5">Sem 5</option>
+                <option value="6">Sem 6</option>
+                <option value="7">Sem 7</option>
+                <option value="8">Sem 8</option>
+            </select>
+            <button id="apply-filters" class="btn">Apply</button>
+            <button id="clear-filters" class="btn btn-outline">Clear</button>
+        </div>
+        <p id="student-count"></p>
+        <table id="student-table">
+            <thead>
+                <tr>
+                    <th>ID</th><th>Name</th><th>Category</th><th>Residence</th><th>GPA</th><th>Semester</th><th>Actions</th>
+                </tr>
+            </thead>
+            <tbody></tbody>
+        </table>
+    </div>
+
+    <!-- ADD STUDENT -->
+    <div id="add" class="section">
+        <h1>Add Student</h1>
+        <form id="add-form">
+            <label>ID<input type="number" id="add-id" required></label>
+            <label>Name<input type="text" id="add-name" required></label>
+            <label>Category
+                <select id="add-category">
+                    <option value="General">General</option>
+                    <option value="SC">SC</option>
+                    <option value="ST">ST</option>
+                </select>
+            </label>
+            <label>Residence
+                <select id="add-residence">
+                    <option value="Hosteller">Hosteller</option>
+                    <option value="Day Scholar">Day Scholar</option>
+                </select>
+            </label>
+            <label>GPA<input type="number" id="add-gpa" step="0.1" min="0" max="10" required></label>
+            <label>Semester<input type="number" id="add-semester" min="1" max="8" required></label>
+            <button type="submit" class="btn">Add Student</button>
+        </form>
+        <p id="add-msg"></p>
+    </div>
+
+    <!-- EDIT MODAL -->
+    <div id="edit-modal" class="modal hidden">
+        <div class="modal-box">
+            <h2>Edit Student</h2>
+            <form id="edit-form">
+                <input type="hidden" id="edit-id">
+                <label>Name<input type="text" id="edit-name"></label>
+                <label>Category
+                    <select id="edit-category">
+                        <option value="General">General</option>
+                        <option value="SC">SC</option>
+                        <option value="ST">ST</option>
+                    </select>
+                </label>
+                <label>Residence
+                    <select id="edit-residence">
+                        <option value="Hosteller">Hosteller</option>
+                        <option value="Day Scholar">Day Scholar</option>
+                    </select>
+                </label>
+                <label>GPA<input type="number" id="edit-gpa" step="0.1" min="0" max="10"></label>
+                <label>Semester<input type="number" id="edit-semester" min="1" max="8"></label>
+                <div class="modal-actions">
+                    <button type="submit" class="btn">Save</button>
+                    <button type="button" class="btn btn-outline" id="edit-cancel">Cancel</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- SUMMARY -->
+    <div id="summary" class="section">
+        <h1>Performance Summary</h1>
+        <div id="summary-cards" class="cards"></div>
+        <div id="summary-levels" class="cards"></div>
+    </div>
+
+    <!-- CATEGORY -->
+    <div id="category" class="section">
+        <h1>Category Wise Analysis</h1>
+        <div id="category-cards" class="cards"></div>
+    </div>
+
+    <!-- RESIDENCE -->
+    <div id="residence" class="section">
+        <h1>Residence Wise Analysis</h1>
+        <div id="residence-cards" class="cards"></div>
+    </div>
+
+    <!-- TOPPERS -->
+    <div id="toppers" class="section">
+        <h1>Toppers</h1>
+        <div class="filters">
+            <label>Top <input type="number" id="topper-count" value="10" min="1" max="100" style="width:60px"></label>
+            <select id="topper-category">
+                <option value="">All Categories</option>
+                <option value="SC">SC</option>
+                <option value="ST">ST</option>
+                <option value="General">General</option>
+            </select>
+            <button id="load-toppers" class="btn">Load</button>
+        </div>
+        <table id="topper-table">
+            <thead>
+                <tr><th>#</th><th>Name</th><th>Category</th><th>GPA</th><th>Semester</th></tr>
+            </thead>
+            <tbody></tbody>
+        </table>
+    </div>
+
+    <!-- AT RISK -->
+    <div id="atrisk" class="section">
+        <h1>At Risk Students</h1>
+        <div class="filters">
+            <label>GPA below <input type="number" id="risk-threshold" value="5.5" step="0.1" min="0" max="10" style="width:70px"></label>
+            <button id="load-risk" class="btn">Load</button>
+        </div>
+        <p id="risk-count"></p>
+        <table id="risk-table">
+            <thead>
+                <tr><th>ID</th><th>Name</th><th>Category</th><th>Residence</th><th>GPA</th><th>Semester</th></tr>
+            </thead>
+            <tbody></tbody>
+        </table>
+    </div>
+
+</div>
+
+<script src="app.js"></script>
+</body>
+</html>
