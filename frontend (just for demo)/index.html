@@ -22,6 +22,7 @@
     <button class="nav-btn" data-section="residence">By Residence</button>
     <button class="nav-btn" data-section="toppers">Toppers</button>
     <button class="nav-btn" data-section="atrisk">At Risk</button>
+    <button class="nav-btn" data-section="lookup">Lookup</button>
 </div>
 
 <div class="main">
@@ -176,6 +177,25 @@
             </thead>
             <tbody></tbody>
         </table>
+    </div>
+
+    <!-- STUDENT LOOKUP -->
+    <div id="lookup" class="section">
+        <h1>Student Lookup</h1>
+        <div class="filters">
+            <input type="number" id="lookup-id" placeholder="Enter Student ID" style="width:160px">
+            <button id="lookup-btn" class="btn">Search</button>
+        </div>
+        <p id="lookup-msg"></p>
+        <div id="lookup-result" class="hidden">
+            <div class="profile-header">
+                <div class="profile-name" id="lookup-name"></div>
+                <div class="profile-meta" id="lookup-meta"></div>
+            </div>
+            <div class="cards" id="lookup-cards"></div>
+            <div id="lookup-rank"></div>
+            <div id="lookup-comparison"></div>
+        </div>
     </div>
 
 </div>
