@@ -52,6 +52,23 @@ body {
     font-weight: 500;
 }
 
+.nav-btn[data-section="lookup"] {
+    color: #b45309;
+    font-weight: 500;
+    border-left: 2px solid #b45309;
+}
+
+.nav-btn[data-section="lookup"]:hover {
+    background: #fef3c7;
+    color: #92400e;
+}
+
+.nav-btn[data-section="lookup"].active {
+    background: #fde68a;
+    color: #92400e;
+    border-left: 2px solid #92400e;
+}
+
 .main {
     margin-left: 220px;
     padding: 32px 40px;
@@ -307,6 +324,52 @@ form input:focus, form select:focus {
 }
 
 .group-block .stats span { font-weight: 600; color: #1c1917; }
+
+.profile-header {
+    margin-bottom: 16px;
+}
+
+.profile-name {
+    font-size: 20px;
+    font-weight: 600;
+    color: #1c1917;
+    margin-bottom: 4px;
+}
+
+.profile-meta {
+    font-size: 13px;
+    color: #78716c;
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+    align-items: center;
+}
+
+.comparison-table {
+    width: 100%;
+    max-width: 500px;
+    margin-top: 16px;
+}
+
+.comparison-table td:first-child {
+    color: #78716c;
+    width: 160px;
+}
+
+.comparison-table td:nth-child(2) { font-weight: 600; }
+.comparison-table td:nth-child(3) { color: #78716c; }
+
+.rank-text {
+    margin-top: 12px;
+    font-size: 14px;
+    color: #44403c;
+}
+
+.rank-text strong {
+    color: #1c1917;
+}
+
+.hidden { display: none; }
 
 .hamburger {
     display: none;
