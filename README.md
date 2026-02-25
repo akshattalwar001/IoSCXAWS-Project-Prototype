@@ -1,4 +1,4 @@
-![Students Database API](https://i.imgur.com/RD4Kf0e.png)
+![Students Database API](https://i.imgur.com/552tfPh.png)
 
 it checks which student is SC ST and which is General.
 
