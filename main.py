@@ -189,6 +189,6 @@ def at_risk_students(
     return {"threshold": threshold, "total_at_risk": len(at_risk), "students": at_risk}
 
 
-if __name__ == "__main__":
+if __name__ == "__main__": #default setting up ports
     import uvicorn
     uvicorn.run("main:app", host="127.0.0.1", port=8000, reload=True)
